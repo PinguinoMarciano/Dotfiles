@@ -244,7 +244,16 @@
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
-(load-theme 'modus-operandi-deuteranopia :no-confirm)
+(use-package modus-themes
+  :defer t
+  :custom
+  (modus-themes-mixed-fonts t)
+  (modus-themes-headings '((1 . (1.5))
+                           (2 . (1.3))
+                           (t . (1.1))))
+  :init
+  (load-theme 'modus-vivendi-tinted :no-confirm))
+
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 ;; Enhancing undo/redo
@@ -315,7 +324,8 @@
 (use-package org
   :ensure t
   :defer t
-  :hook (visual-line-mode . org-mode)
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . variable-pitch-mode)) 
   :commands (org-mode org-version)
   :mode
   ("\\.org\\'" . org-mode)
@@ -335,6 +345,11 @@
   :ensure t
   :defer t
   :hook (org-mode . org-appear-mode))
+
+(use-package olivetti
+  :ensure t
+  :defer t
+  :hook (org-mode . olivetti-mode))
 
 (use-package org-bullets
   :config
@@ -481,7 +496,7 @@
 (setq mode-line-position-column-lnine-format '("%l:%C"))
 
 ;; Display of line numbers in the buffer:
-(global-display-line-numbers-mode 1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (setq display-line-numbers-type 'relative)
 
 ;; Display column
@@ -490,34 +505,6 @@
 
 ;; Automatic parenthesis
 (add-hook 'prog-mode-hook #'electric-pair-mode)
-
-;; General Font
-(add-to-list 'default-frame-alist '(font . "IosevkaNerdFont-18" ))
-(set-face-attribute 'default t :font "IosevkaNerdFont-18")
-
-;; Wich key
-(use-package which-key
-  :ensure nil ; builtin
-  :defer t
-  :commands which-key-mode
-  :hook (after-init . which-key-mode)
-  :custom
-  (which-key-idle-delay 1.5)
-  (which-key-idle-secondary-delay 0.25)
-  (which-key-add-column-padding 1)
-  (which-key-max-description-length 40))
-
-;; Pixel scroll mode
-(unless (and (eq window-system 'mac)
-             (bound-and-true-p mac-carbon-version-string))
-  ;; Enables `pixel-scroll-precision-mode' on all operating systems and Emacs
-  ;; versions, except for emacs-mac.
-  ;;
-  ;; Enabling `pixel-scroll-precision-mode' is unnecessary with emacs-mac, as
-  ;; this version of Emacs natively supports smooth scrolling.
-  ;; https://bitbucket.org/mituharu/emacs-mac/commits/65c6c96f27afa446df6f9d8eff63f9cc012cc738
-  (setq pixel-scroll-precision-use-momentum nil) ; Precise/smoother scrolling
-  (pixel-scroll-precision-mode 1))
 
 ;; Display the time in the modeline
 (add-hook 'after-init-hook #'display-time-mode)
@@ -531,14 +518,6 @@
 
 ;; Replace selected text with typed text
 (delete-selection-mode 1)
-
-(use-package uniquify
-  :ensure nil
-  :custom
-  (uniquify-buffer-name-style 'reverse)
-  (uniquify-separator "•")
-  (uniquify-after-kill-buffer-p t)
-  (uniquify-ignore-buffers-re "^\\*"))
 
 ;; Window dividers separate windows visually. Window dividers are bars that can
 ;; be dragged with the mouse, thus allowing you to easily resize adjacent
@@ -554,3 +533,65 @@
 (setq vc-make-backup-files t)
 (setq kept-old-versions 10)
 (setq kept-new-versions 10)
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+;; General Font
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+;; Default
+(set-face-attribute 'default nil
+                    :family "Iosevka Nerd Font Mono"
+                    :height 180
+                    :weight 'Regular)
+
+;; Variable-pitch
+(set-face-attribute 'variable-pitch nil
+                    :family "DejaVuSans"
+                    :height 180
+                    :weight 'Regular)
+
+;; Fixed-pitch
+(set-face-attribute 'fixed-pitch nil
+                    :family "IosevkaNerdFont")
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+;; Wich key
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+(use-package which-key
+  :ensure nil ; builtin
+  :defer t
+  :commands which-key-mode
+  :hook (after-init . which-key-mode)
+  :custom
+  (which-key-idle-delay 1.5)
+  (which-key-idle-secondary-delay 0.25)
+  (which-key-add-column-padding 1)
+  (which-key-max-description-length 40))
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+;; Pixel scroll mode
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+(unless (and (eq window-system 'mac)
+             (bound-and-true-p mac-carbon-version-string))
+  ;; Enables `pixel-scroll-precision-mode' on all operating systems and Emacs
+  ;; versions, except for emacs-mac.
+  ;;
+  ;; Enabling `pixel-scroll-precision-mode' is unnecessary with emacs-mac, as
+  ;; this version of Emacs natively supports smooth scrolling.
+  ;; https://bitbucket.org/mituharu/emacs-mac/commits/65c6c96f27afa446df6f9d8eff63f9cc012cc738
+  (setq pixel-scroll-precision-use-momentum nil) ; Precise/smoother scrolling
+  (pixel-scroll-precision-mode 1))
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+;; Uniquify
+;; -------------------------------------------------------------------------
+;; -------------------------------------------------------------------------
+(use-package uniquify
+  :ensure nil
+  :custom
+  (uniquify-buffer-name-style 'reverse)
+  (uniquify-separator "•")
+  (uniquify-after-kill-buffer-p t)
+  (uniquify-ignore-buffers-re "^\\*"))
