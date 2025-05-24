@@ -248,7 +248,8 @@
   :defer t
   :custom
   (modus-themes-mixed-fonts t)
-  (modus-themes-headings '((1 . (1.5))
+  (modus-themes-headings '((0 . (1.8))
+                           (1 . (1.5))
                            (2 . (1.3))
                            (t . (1.1))))
   :init
@@ -546,13 +547,13 @@
 
 ;; Variable-pitch
 (set-face-attribute 'variable-pitch nil
-                    :family "DejaVuSans"
+                    :family "Libertinus Serif"
                     :height 180
                     :weight 'Regular)
 
 ;; Fixed-pitch
 (set-face-attribute 'fixed-pitch nil
-                    :family "IosevkaNerdFont")
+                    :family "Iosevka Nerd Font Mono")
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 ;; Wich key
