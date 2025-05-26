@@ -244,16 +244,16 @@
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
-(use-package modus-themes
+(use-package ef-themes
   :defer t
   :custom
-  (modus-themes-mixed-fonts t)
-  (modus-themes-headings '((0 . (1.8))
-                           (1 . (1.5))
-                           (2 . (1.3))
-                           (t . (1.1))))
+  (ef-themes-mixed-fonts t)
+  (ef-themes-headings '((0 . (1.8))
+                        (1 . (1.5))
+                        (2 . (1.3))
+                        (t . (1.1))))
   :init
-  (load-theme 'modus-vivendi-tinted :no-confirm))
+  (load-theme 'ef-dream :no-confirm))
 
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
@@ -334,6 +334,12 @@
   (org-hide-leading-stars t)
   (org-hide-emphasis-markers t)
   (org-startup-indented t)
+  (org-auto-align-tags nil)
+  (org-tags-column 0)
+  (org-pretty-entities t)
+  (org-use-sub-superscripts "{}")
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(300))
   (org-adapt-indentation nil)
   (org-edit-src-content-indentation 0)
   (org-startup-truncated nil)
@@ -352,9 +358,14 @@
   :defer t
   :hook (org-mode . olivetti-mode))
 
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+(use-package org-modern
+  :hook
+  (org-mode . global-org-modern-mode)
+  :custom
+  (org-modern-star 'replace)
+  (org-modern-checkbox nil)
+  (org-modern-keyword nil)
+  )
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 ;; Asynchronous code formatting
@@ -547,13 +558,15 @@
 
 ;; Variable-pitch
 (set-face-attribute 'variable-pitch nil
-                    :family "Libertinus Serif"
+                    :family "Cantarell"
                     :height 180
                     :weight 'Regular)
 
 ;; Fixed-pitch
 (set-face-attribute 'fixed-pitch nil
                     :family "Iosevka Nerd Font Mono")
+;; Line-spacing
+(setq-default line-spacing 0.1)
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 ;; Wich key
