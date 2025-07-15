@@ -78,7 +78,8 @@
   ;; Disable Ispell completion function. As an alternative try `cape-dict'.
   (text-mode-ispell-word-completion nil)
   (tab-always-indent 'complete)
-
+  (corfu-popupinfo-mode 1)
+  
   ;; Enable Corfu
   :config
   (global-corfu-mode))
@@ -311,12 +312,14 @@
 
                          :yapf (:enabled :json-false)
                          :rope_autoimport (:enabled :json-false)))
-                       :clangd ()))
-
-
+                       ))
+;; ----------------- Python ------------------------------------------------
 (add-hook 'python-mode-hook #'eglot-ensure)
 (add-hook 'python-ts-mode-hook #'eglot-ensure)
+;; ------------------------- C ---------------------------------------------
 (add-hook 'c-mode-hook #'eglot-ensure)
+;; ------------------------- Java ------------------------------------------
+(add-hook 'java-mode-hook #'eglot-ensure);
 ;; -------------------------------------------------------------------------
 ;; -------------------------------------------------------------------------
 ;; Configuring org-mode
