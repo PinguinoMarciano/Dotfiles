@@ -563,7 +563,7 @@
 
 ;; Variable-pitch
 (set-face-attribute 'variable-pitch nil
-                    :family "Cantarell"
+                    :family "Liberation Sans"
                     :height 180
                     :weight 'Regular)
 
